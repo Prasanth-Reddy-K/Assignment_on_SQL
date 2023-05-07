@@ -1,0 +1,121 @@
+-- 1
+
+-- Creating  the database consultation and therapy
+CREATE DATABASE consultation_therapy;
+USE consultation_therapy;
+-- Creating  the doctor table
+CREATE TABLE doctor(
+id INTEGER  PRIMARY KEY NOT NULL,
+name VARCHAR(35) NOT NULL,
+specialization VARCHAR(20) NOT NULL);
+
+-- Inserting the data into the doctor table
+
+INSERT INTO doctor VALUES(201, 'K.Prasanth Reddy', 'Neuroly');
+
+INSERT INTO doctor VALUES(202, 'K.Rahul Reddy', 'Dentist');
+
+INSERT INTO doctor VALUES(203, 'K.Dharaneesh reddy', 'opthomology');
+
+INSERT INTO doctor VALUES(204, 'K Kiran ', 'abdf');
+
+INSERT INTO doctor VALUES(205, 'K.Kusuma Reddy', 'Pysician');
+
+-- Retriving the data of doctor table
+
+SELECT * FROM doctor;
+
+-- Creating the patient table
+
+CREATE TABLE patient(
+id INT PRIMARY KEY,
+name VARCHAR(40) NOT NULL,
+age INT NOT NULL,
+address VARCHAR(50) NOT NULL,
+gender varchar(6)
+);
+
+-- Inserting  the data into the patient table
+
+INSERT INTO patient VALUES(101, 'Prasanth', 25, 'dehlh', 'Male');
+INSERT INTO patient VALUES(103, 'daharaneesh', 23, 'luknow', 'male');
+INSERT INTO patient VALUES(104, 'kiran', 34, 'chennai', 'male');
+INSERT INTO patient VALUES(105, 'kusuma', 23, 'gujarat', 'female');
+
+-- Creating  the table appointments
+
+CREATE TABLE appointment(
+id INT PRIMARY KEY,
+doc_id INT NOT NULL,
+pat_id INT NOT NULL,
+appoint_date DATE NOT NULL
+);
+
+-- Inserting the data into the appointments table
+
+INSERT INTO appointment VALUES(1,201, 103, '2023-05-7'),(2,201,101,  '2023-05-09'),(3,203,101,'2023-05-8'),(4,201,103, '2023-05-9'),(5,202,102, '2023-05-08'),(6,200,101, '2023-05-10');
+-- Retrieving the data of appointments table
+SELECT * FROM appointment;
+-- Creaitng the reviews table
+
+CREATE TABLE reviews(
+pt_id INT,
+pt_review VARCHAR(40) NOT NULL,
+rating integer check (rating <=5)
+);
+INSERT INTO reviews VALUES(101, 'he done a very good job', 4),(102, 'he is expert and slowly he exute operatio succesfuly',4),(103, 'she is very kindness ', 4),(104, 'he is  average', 3);
+
+-- 2 question 
+
+CREATE TABLE contact(
+id INT PRIMARY KEY,
+email VARCHAR(30) NOT NULL,
+fname VARCHAR(20) NOT NULL,
+lname VARCHAR(10) NOT NULL,
+company VARCHAR(15) NOT NULL,
+active_flag INT NOT NULL,
+opt_out INT NOT NULL
+);
+
+INSERT INTO contact VALUES(123, 'a@a.com', 'Kian', 'Seth', 'ABC', 1, 1),(133, 'b@a.com', 'Neha', 'Seth', 'ABC', 1, 0),(234, 'c@c.com', 'Puru', 'Malik', 'CDF', 0, 0),(342, 'd@d.com', 'Sid', 'Maan', 'TEG', 1, 0);
+-- ANSWERS:
+--1;
+ SELECT * FROM contact WHERE active_flag = 1;
+-- 2
+ DELETE FROM contact WHERE opt_out = 1;
+-- 3 
+DELETE FROM contact WHERE company = 'ABC';
+-- 4 
+INSERT INTO contact VALUES(658, 'mili@gmail.com', 'mili', 'Seth', 'DGH', 1, 1);
+-- 5
+ SELECT DISTINCT company FROM contact;
+-- 6
+ UPDATE contact SET fname = 'niti' WHERE fname = 'mili';
+
+-- 3 .ANSWER:
+CREATE TABLE salesman(
+salesman_id INT PRIMARY KEY,
+s_name VARCHAR(30) NOT NULL,
+city VARCHAR(20) NOT NULL,
+commission FLOAT NOT NULL
+);
+
+CREATE TABLE customer(
+customer_id INT PRIMARY KEY,
+customer_name VARCHAR(30) NOT NULL,
+city VARCHAR(20) NOT NULL,
+grade INT,
+salesman_id INT,
+FOREIGN KEY(salesman_id) REFERENCES salesman(salesman_id) 
+);
+INSERT INTO salesman VALUES( 5002, 'Nail Knite', 'Paris',0.13), ( 5001, 'James Hoog', 'New York' , 0.15),(5005, 'Pit Alex', 'London', 0.11),( 5006, 'Mc Lyon', 'Paris',  0.14), (  5007, 'Paul Adam', 'Rome', 0.13),(5003, 'Lauson Hen', 'San Jose',  0.12);
+
+INSERT INTO customer VALUES( 3002, 'Nick Rimando', 'New York', 100, 5001), (3007, 'Brad Davis', 'New York', 200, 5001), ( 3005, 'Graham Zusi', 'California', 200, 5002), ( 3008, 'Julian Green', 'London', 300, 5002), ( 3004, 'Fabian Johnson', 'Paris', 300,5006), ( 3009, 'Geoff Cameron', 'Berlin', 100,5003), ( 3003, 'Jozy Altidor', 'Moscow', 200, 5007);
+
+INSERT INTO customer(customer_id, customer_name, city, salesman_id) VALUES (3001, 'Brad Guzan','London', 5005); 
+-- ANSWER:
+
+SELECT customer_name, customer.city, grade, s_name, salesman.city FROM customer, salesman WHERE grade <= 100 AND customer.salesman_id = salesman.salesman_id ORDER BY customer_id;
+-- OUTPUT--
+-- Geoff Cameron	Berlin	100	Lauson Hen	San Jose
+-- Nick Rimando	New York	100	James Hoog	New York
